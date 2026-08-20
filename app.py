@@ -94,11 +94,49 @@ def delete_employee(employee_id):
 
     print("\nEmployee deleted successfully")
 
+# 5. EMPLOYEE UPDATE FEATURE____________________
+
+def update_employee(employee_id):
+    employees = []
+    found = False
+
+    with open("employees.csv", "r") as file:
+        reader = csv.DictReader(file)
+
+        for employee in reader:
+            if employee["id"] == employee_id:
+                found = True
+
+                print("\nCurrent Employee Details")
+                print("Name:", employee["name"])
+                print("Department:", employee["department"])
+                print("Salary:", employee["salary"])
+
+                employee["name"] = input("Enter new name: ")
+                employee["department"] = input("Enter new department: ")
+                employee["salary"] = input("Enter new salary: ")
+
+            employees.append(employee)
+
+    if not found:
+        print("\nEmployee not found")
+        return
+
+    with open("employees.csv", "w", newline="") as file:
+        fieldnames = ["id", "name", "department", "salary"]
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        writer.writeheader()
+        writer.writerows(employees)
+
+    print("\nEmployee updated successfully")
+
 
 ##### PROGRAM MENU ---------- SABSE NEECHE #####
 
 choice = input(
-    "Enter 1 to Search Employee, 2 to Add Employee or 3 to Delete Employee: "
+    "Enter 1 to Search Employee, 2 to Add Employee, "
+    "3 to Delete Employee or 4 to Update Employee: "
 )
 
 if choice == "1":
@@ -111,6 +149,10 @@ elif choice == "2":
 elif choice == "3":
     employee_id = input("Enter Employee ID to delete: ")
     delete_employee(employee_id)
+
+elif choice == "4":
+    employee_id = input("Enter Employee ID to update: ")
+    update_employee(employee_id)
 
 else:
     print("Invalid choice")
