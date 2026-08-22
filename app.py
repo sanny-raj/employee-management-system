@@ -1,4 +1,5 @@
 import csv
+import re
 
 # 0. EXISTING EMPLOYEE DISPLAY____________________
 
@@ -49,7 +50,18 @@ def search_employee(employee_id):
 # 3. ADD EMPLOYEE FEATURE____________________
 
 def add_employee():
-    employee_id = input("Enter Employee ID: ")
+    while True:
+        employee_id = input("Enter Employee ID: ").strip()
+
+        if not employee_id:
+            print("\nEmployee ID cannot be empty")
+            continue
+
+        if not re.fullmatch(r"[A-Za-z0-9]+", employee_id):
+            print("\nEmployee ID can contain only letters and numbers")
+            continue
+
+        break
 
     with open("employees.csv", "r") as file:
         employees = csv.DictReader(file)
@@ -59,9 +71,46 @@ def add_employee():
                 print("\nEmployee ID already exists")
                 return
 
-    name = input("Enter Employee Name: ")
-    department = input("Enter Department: ")
-    salary = input("Enter Salary: ")
+    while True:
+        name = input("Enter Employee Name: ").strip()
+
+        if not name:
+            print("\nEmployee Name cannot be empty")
+            continue
+
+        if not re.fullmatch(r"[A-Za-z ]+", name):
+            print("\nEmployee Name can contain only letters and spaces")
+            continue
+
+        break
+
+    while True:
+        department = input("Enter Department: ").strip()
+
+        if not department:
+            print("\nDepartment cannot be empty")
+            continue
+
+        if not re.fullmatch(r"[A-Za-z ]+", department):
+            print("\nDepartment can contain only letters and spaces")
+            continue
+
+        break
+
+    while True:
+        salary = input("Enter Salary: ").strip()
+
+        try:
+            salary = float(salary)
+
+            if salary < 0:
+                print("\nSalary cannot be negative")
+                continue
+
+            break
+
+        except ValueError:
+            print("\nPlease enter a valid numeric salary")
 
     with open("employees.csv", "a", newline="") as file:
         writer = csv.DictWriter(
@@ -128,9 +177,50 @@ def update_employee(employee_id):
                 print("Department:", employee["department"])
                 print("Salary:", employee["salary"])
 
-                employee["name"] = input("Enter new name: ")
-                employee["department"] = input("Enter new department: ")
-                employee["salary"] = input("Enter new salary: ")
+                while True:
+                    new_name = input("Enter new name: ").strip()
+
+                    if not new_name:
+                        print("\nEmployee Name cannot be empty")
+                        continue
+
+                    if not re.fullmatch(r"[A-Za-z ]+", new_name):
+                        print("\nEmployee Name can contain only letters and spaces")
+                        continue
+
+                    break
+
+                while True:
+                    new_department = input("Enter new department: ").strip()
+
+                    if not new_department:
+                        print("\nDepartment cannot be empty")
+                        continue
+
+                    if not re.fullmatch(r"[A-Za-z ]+", new_department):
+                        print("\nDepartment can contain only letters and spaces")
+                        continue
+
+                    break
+
+                while True:
+                    new_salary = input("Enter new salary: ").strip()
+
+                    try:
+                        new_salary = float(new_salary)
+
+                        if new_salary < 0:
+                            print("\nSalary cannot be negative")
+                            continue
+
+                        break
+
+                    except ValueError:
+                        print("\nPlease enter a valid numeric salary")
+
+                employee["name"] = new_name
+                employee["department"] = new_department
+                employee["salary"] = new_salary
 
             employees.append(employee)
 
@@ -150,28 +240,38 @@ def update_employee(employee_id):
 
 ##### PROGRAM MENU ---------- SABSE NEECHE #####
 
-choice = input(
-    "Enter 1 to View All Employees, 2 to Search Employee, "
-    "3 to Add Employee, 4 to Delete Employee or 5 to Update Employee: "
-)
+while True:
+    choice = input(
+        "\n1. View All Employees\n"
+        "2. Search Employee\n"
+        "3. Add Employee\n"
+        "4. Delete Employee\n"
+        "5. Update Employee\n"
+        "6. Exit\n"
+        "Enter your choice: "
+    )
 
-if choice == "1":
-    view_all_employees()
+    if choice == "1":
+        view_all_employees()
 
-elif choice == "2":
-    employee_id = input("Enter Employee ID: ")
-    search_employee(employee_id)
+    elif choice == "2":
+        employee_id = input("Enter Employee ID: ").strip()
+        search_employee(employee_id)
 
-elif choice == "3":
-    add_employee()
+    elif choice == "3":
+        add_employee()
 
-elif choice == "4":
-    employee_id = input("Enter Employee ID to delete: ")
-    delete_employee(employee_id)
+    elif choice == "4":
+        employee_id = input("Enter Employee ID to delete: ").strip()
+        delete_employee(employee_id)
 
-elif choice == "5":
-    employee_id = input("Enter Employee ID to update: ")
-    update_employee(employee_id)
+    elif choice == "5":
+        employee_id = input("Enter Employee ID to update: ").strip()
+        update_employee(employee_id)
 
-else:
-    print("Invalid choice")
+    elif choice == "6":
+        print("\nThank you for using Employee Management System.")
+        break
+
+    else:
+        print("\nInvalid choice. Please try again.")

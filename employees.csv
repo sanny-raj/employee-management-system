@@ -1,6 +1,5 @@
 id,name,department,salary
-101,Sanny Raj,IT,55000
-102,Priya Sharma,HR,48000
+101,Sanny Raj,IT,85000.0
 103,Aman Singh,Sales,52000
 104,Neha Verma,Finance,60000
 105,Rohit Gupta,IT,58000
@@ -100,4 +99,6 @@ id,name,department,salary
 199,Sameer Kumar,Sales,60000
 200,Suman Patel,IT,58000
 201,Radha Kumari,HR,48000
-202,Shivan Raj,Finance,20000
+203,Sonu Kumar,Manager,75000
+204,Saurabh Kumar,IT,35000.0
+205,Gautam Raj,Sales,30000.0
