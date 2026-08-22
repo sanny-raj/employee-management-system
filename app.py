@@ -1,6 +1,6 @@
 import csv
 
-# 1. EXISTING EMPLOYEE DISPLAY____________________
+# 0. EXISTING EMPLOYEE DISPLAY____________________
 
 with open("employees.csv", "r") as file:
     employees = csv.DictReader(file)
@@ -12,6 +12,22 @@ with open("employees.csv", "r") as file:
             employee["department"],
             employee["salary"]
         )
+
+# 1. VIEW ALL EMPLOYEES FEATURE____________________
+def view_all_employees():
+    print("\nAll Employees")
+    print("-" * 50)
+
+    with open("employees.csv", "r") as file:
+        employees = csv.DictReader(file)
+
+        for employee in employees:
+            print(
+                employee["id"],
+                employee["name"],
+                employee["department"],
+                employee["salary"]
+            )
 
 # 2. SEARCH EMPLOYEE FEATURE____________________
 
@@ -135,22 +151,25 @@ def update_employee(employee_id):
 ##### PROGRAM MENU ---------- SABSE NEECHE #####
 
 choice = input(
-    "Enter 1 to Search Employee, 2 to Add Employee, "
-    "3 to Delete Employee or 4 to Update Employee: "
+    "Enter 1 to View All Employees, 2 to Search Employee, "
+    "3 to Add Employee, 4 to Delete Employee or 5 to Update Employee: "
 )
 
 if choice == "1":
+    view_all_employees()
+
+elif choice == "2":
     employee_id = input("Enter Employee ID: ")
     search_employee(employee_id)
 
-elif choice == "2":
+elif choice == "3":
     add_employee()
 
-elif choice == "3":
+elif choice == "4":
     employee_id = input("Enter Employee ID to delete: ")
     delete_employee(employee_id)
 
-elif choice == "4":
+elif choice == "5":
     employee_id = input("Enter Employee ID to update: ")
     update_employee(employee_id)
 
